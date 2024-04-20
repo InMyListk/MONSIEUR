@@ -30,7 +30,7 @@ export const Sidebar = ({ className }: Props) => {
         </div>
       </Link>
       <div className="flex-1 flex flex-col mx-auto gap-y-2 pt-10 border-b">
-        <SidebarItem label="الصفوف الدراسية" href="/learn">
+        <SidebarItem label="الصفوف الدراسية" href="/degrees">
           <GraduationCap />
         </SidebarItem>
         <SidebarItem label="الوحدات المقررة" href="/units">
