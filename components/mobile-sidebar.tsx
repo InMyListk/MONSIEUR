@@ -22,7 +22,7 @@ export const MobileSidebar = () => {
         </SignedOut>
         <UserButton />
       </ClerkLoaded>
-      <div className="lg:hidden block">
+      <div className="xl:hidden block">
         <Sheet>
           <SheetTrigger>
             <Menu className="text-black" />

@@ -8,9 +8,9 @@ const layout = ({ children }: Props) => {
   return (
     <>
       <MobileHeader />
-      <Sidebar className="hidden lg:flex" />
-      <main className="lg:pr-[260px] h-full w-[] pt-[50px]">
-        <div className="">{children}</div>
+      <Sidebar className="hidden xl:flex" />
+      <main className="xl:pr-[260px] bg-gray-100 min-h-full max-h-fit pt-[50px]">
+        <div className="w-full mx-auto h-full pt-8 pb-8">{children}</div>
       </main>
     </>
   );
