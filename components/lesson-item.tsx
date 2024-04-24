@@ -12,7 +12,7 @@ export const LessonItem = ({ name, length, active }: Props) => {
   return (
     <div
       className={cn(
-        "h-[60px] w-full bg-white rounded-xl flex flex-row-reverse items-center px-3  cursor-pointer",
+        "h-[60px] w-full bg-white rounded-xl flex flex-row-reverse items-center px-3 cursor-pointer shadow-md",
         active
           ? "bg-purple-700 hover:bg-purple-700/80"
           : "bg-white hover:bg-gray-500/15"
