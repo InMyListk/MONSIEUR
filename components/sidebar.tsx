@@ -4,13 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { SidebarItem } from "./sidebar-item";
-import {
-  BadgeHelp,
-  BookOpen,
-  BookText,
-  GraduationCap,
-  Settings,
-} from "lucide-react";
+import { BadgeHelp, BookOpen, BookText, GraduationCap } from "lucide-react";
+import { SettingsDialog } from "./settings";
 
 type Props = {
   className?: string;
@@ -44,8 +39,8 @@ export const Sidebar = ({ className }: Props) => {
         <SidebarItem label="قسم الدعم" href="/help">
           <BadgeHelp />
         </SidebarItem>
-        <SidebarItem label="الاعدادات" href="/settings">
-          <Settings />
+        <SidebarItem label="الاعدادات">
+          <SettingsDialog label="الاعدادات" />
         </SidebarItem>
       </div>
     </div>

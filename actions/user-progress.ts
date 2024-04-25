@@ -1,23 +1,31 @@
-import db from "@/db/drizzle";
-import { getDegreeById, getUserProgress } from "@/db/queries";
-import { userProgress } from "@/db/schema";
-import { auth, currentUser } from "@clerk/nextjs/server";
-import { revalidatePath } from "next/cache";
+"use server";
+
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
+import { auth, currentUser } from "@clerk/nextjs";
+
+import db from "@/db/drizzle";
+import { userProgress } from "@/db/schema";
+import { getDegreeById, getUserProgress } from "@/db/queries";
 
 export const upsertUserProgress = async (degreeId: number) => {
-  const { userId } = auth();
+  const { userId } = await auth();
 
   const user = await currentUser();
 
   if (!userId || !user) {
-    throw new Error("Unauthorized");
+    throw new Error("Unauthorized ");
   }
 
   const degree = await getDegreeById(degreeId);
+
   if (!degree) {
-    throw new Error("degree not found");
+    throw new Error("Degree not found");
   }
+
+  //   if (!degree.units.length || !degree.units[0].lessons.length) {
+  //     throw new Error("Degree not empty");
+  //   }
 
   const existingUserProgress = await getUserProgress();
 
@@ -25,8 +33,9 @@ export const upsertUserProgress = async (degreeId: number) => {
     await db.update(userProgress).set({
       activeDegreeId: degreeId,
       userName: user.firstName || "User",
-      userImageSrc: user.imageUrl,
+      userImageSrc: user.imageUrl || "/mascot.svg",
     });
+
     revalidatePath("/degrees");
     revalidatePath("/units");
     revalidatePath("/lessons");
@@ -37,7 +46,7 @@ export const upsertUserProgress = async (degreeId: number) => {
     userId,
     activeDegreeId: degreeId,
     userName: user.firstName || "User",
-    userImageSrc: user.imageUrl,
+    userImageSrc: user.imageUrl || "/mascot.svg",
   });
 
   revalidatePath("/degrees");

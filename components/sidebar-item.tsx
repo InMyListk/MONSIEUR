@@ -5,7 +5,7 @@ import Link from "next/link";
 
 type Props = {
   label: string;
-  href: string;
+  href?: string;
   children: React.ReactNode;
 };
 
@@ -14,15 +14,21 @@ export const SidebarItem = ({ label, href, children }: Props) => {
   const active = pathname === href;
 
   return (
-    <Button
-      variant={active ? "sidebarOutline" : "sidebar"}
-      className="justify-end h-[40px] w-[220px] rounded-[10px]"
-      asChild
-    >
-      <Link href={href} className="flex items-center space-x-3">
-        <p className="font-bold">{label}</p>
-        {children}
-      </Link>
-    </Button>
+    <>
+      {href ? (
+        <Button
+          variant={active ? "sidebarOutline" : "sidebar"}
+          className="justify-end h-[40px] w-[220px] rounded-[10px]"
+          asChild
+        >
+          <Link href={href} className="flex items-center space-x-3">
+            <p className="font-bold">{label}</p>
+            {children}
+          </Link>
+        </Button>
+      ) : (
+        <>{children}</>
+      )}
+    </>
   );
 };
