@@ -1,12 +1,15 @@
 import Image from "next/image";
-import { Card } from "./card";
+import { List } from "./list";
 import { getDegrees, getUserProgress } from "@/db/queries";
 
-const DegreesPage = () => {
+const DegreesPage = async () => {
   const degreesData = getDegrees();
   const userProgressData = getUserProgress();
 
-  // const [degrees, userProgress] = Promise.all([degreesData, userProgressData]); //to do
+  const [degrees, userProgress] = await Promise.all([
+    degreesData,
+    userProgressData,
+  ]); //to do
 
   return (
     <div className="flex flex-col w-full">
@@ -21,29 +24,7 @@ const DegreesPage = () => {
         />
       </div>
       {/* This should be in list components */}
-      <div className="lg:py-10 px-10 flex flex-row-reverse gap-3 flex-wrap md:justify-start justify-center">
-        <Card
-          title="الصف الاول الثانوي"
-          active={true}
-          onClick={() => {}}
-          id={1}
-          disabled={false}
-        />
-        <Card
-          title="الصف الثاني الثانوي"
-          active={false}
-          onClick={() => {}}
-          id={1}
-          disabled={false}
-        />
-        <Card
-          title="الصف الثالث الثانوي"
-          active={false}
-          onClick={() => {}}
-          id={1}
-          disabled={false}
-        />
-      </div>
+      <List degrees={degrees} activeDegreeId={userProgress?.activeDegreeId} />
     </div>
   );
 };

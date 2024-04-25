@@ -18,6 +18,8 @@ export const getUserProgress = cache(async () => {
       activeDegree: true,
     },
   });
+
+  return data;
 });
 
 export const getDegrees = cache(async () => {
@@ -30,4 +32,5 @@ export const getDegreeById = cache(async (degreeId: number) => {
   const data = await db.query.degrees.findFirst({
     where: eq(degrees.id, degreeId),
   });
+  return data;
 });
