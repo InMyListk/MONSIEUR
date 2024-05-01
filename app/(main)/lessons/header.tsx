@@ -15,19 +15,19 @@ export const Header = () => {
         <Breadcrumb>
           <BreadcrumbList className="flex flex-row-reverse">
             <BreadcrumbItem className="cursor-pointer font-semibold">
-              <Link href="/degrees" className="hover:text-black">
+              <Link href="/degrees" className="hover:text-black/80">
                 الصف الاول الثانوي
               </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator className="rotate-180" />
             <BreadcrumbItem className="cursor-pointer font-semibold">
-              <Link href="/units" className="hover:text-black">
+              <Link href="/units" className="hover:text-black/80">
                 الوحدة الاولي
               </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator className="rotate-180" />
             <BreadcrumbItem className="cursor-pointer font-semibold">
-              <Link href="/lessons" className="hover:text-black">
+              <Link href="/lessons" className="hover:text-black/80">
                 مقدمة الوحدة
               </Link>
             </BreadcrumbItem>

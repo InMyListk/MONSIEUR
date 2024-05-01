@@ -1,7 +1,7 @@
 import React from "react";
 
 const UnitsPage = () => {
-  return <div>UnitsPage</div>;
+  return <div></div>;
 };
 
 export default UnitsPage;

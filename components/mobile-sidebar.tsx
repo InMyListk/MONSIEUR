@@ -6,7 +6,12 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/nextjs";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { Loader, Menu } from "lucide-react";
 import { Sidebar } from "./sidebar";
 

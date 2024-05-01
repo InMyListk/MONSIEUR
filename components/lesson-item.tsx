@@ -20,9 +20,9 @@ export const LessonItem = ({ name, length, active }: Props) => {
     >
       <div className="p-2 bg-white rounded-full">
         {active ? (
-          <Pause className="text-purple-500" />
+          <Pause className="fill-purple-500 stroke-purple-500 text-purple-500" />
         ) : (
-          <Play className="text-purple-500" />
+          <Play className="fill-purple-500 stroke-purple-500 text-purple-500" />
         )}
       </div>
       <div className="pr-3 flex flex-col items-end ">

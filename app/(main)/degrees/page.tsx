@@ -23,7 +23,6 @@ const DegreesPage = async () => {
           height={0}
         />
       </div>
-      {/* This should be in list components */}
       <List degrees={degrees} activeDegreeId={userProgress?.activeDegreeId} />
     </div>
   );
