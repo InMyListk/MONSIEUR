@@ -1,16 +1,19 @@
 import { cn } from "@/lib/utils";
 import { Pause, Play } from "lucide-react";
+import Link from "next/link";
 import React from "react";
 
 type Props = {
-  name: string;
+  id: number;
+  title: string;
   length: string;
   active: boolean;
 };
 
-export const LessonItem = ({ name, length, active }: Props) => {
+export const LessonItem = ({ title, length, active, id }: Props) => {
   return (
-    <div
+    <Link
+      href={`/lessons/${id}`}
       className={cn(
         "h-[60px] w-full bg-white rounded-xl flex flex-row-reverse items-center px-3 cursor-pointer shadow-md",
         active
@@ -32,7 +35,7 @@ export const LessonItem = ({ name, length, active }: Props) => {
             active ? "text-white" : "text-black"
           )}
         >
-          {name}
+          {title}
         </h2>
         <p
           className={cn(
@@ -43,6 +46,6 @@ export const LessonItem = ({ name, length, active }: Props) => {
           {length}
         </p>
       </div>
-    </div>
+    </Link>
   );
 };

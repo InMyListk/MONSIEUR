@@ -4,8 +4,22 @@ import { UserProgress } from "@/components/user-progress";
 import { LessonsSidebar } from "@/components/lessons-sidebar";
 import React from "react";
 import { Header } from "./header";
+import { getLessons, getUnits, getUserProgress } from "@/db/queries";
+import { redirect } from "next/navigation";
 
-const LearningPage = () => {
+type Props = {
+  children: React.ReactNode;
+};
+
+const layout = async ({ children }: Props) => {
+  const userProgressData = getUserProgress();
+
+  const [userProgress] = await Promise.all([userProgressData]);
+
+  if (!userProgress || !userProgress.activeUnit) {
+    redirect("/units");
+  }
+
   return (
     <div className="flex flex-row gap-[25px] px-6">
       <StickyWrapper>
@@ -14,9 +28,10 @@ const LearningPage = () => {
       </StickyWrapper>
       <FeedWrapper>
         <Header />
+        {children}
       </FeedWrapper>
     </div>
   );
 };
 
-export default LearningPage;
+export default layout;

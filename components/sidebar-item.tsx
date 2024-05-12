@@ -1,6 +1,9 @@
+"use client";
+
 import { usePathname } from "next/navigation";
 import React from "react";
 import { Button } from "@/components/ui/button";
+
 import Link from "next/link";
 
 type Props = {

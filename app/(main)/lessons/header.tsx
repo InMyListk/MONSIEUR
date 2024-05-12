@@ -2,7 +2,6 @@ import { MobileLessonsSidebar } from "@/components/mobile-lessons-sidebar";
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";

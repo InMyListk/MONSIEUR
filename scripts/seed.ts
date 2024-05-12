@@ -14,6 +14,8 @@ const main = async () => {
     console.log("Seeding database");
 
     await db.delete(schema.degrees);
+    await db.delete(schema.units);
+    await db.delete(schema.lessons);
     await db.delete(schema.userProgress);
 
     await db.insert(schema.degrees).values([
@@ -124,6 +126,63 @@ const main = async () => {
         title: "العبارات الشائعة في اللغة الفرنسية",
         description:
           "في هذا الدرس، سنتعلم العبارات الشائعة في اللغة الفرنسية وكيفية استخدامها للتحدث والتواصل بشكل صحيح.",
+      },
+    ]);
+    await db.insert(schema.challenges).values([
+      {
+        id: 1,
+        lessonId: 1,
+        type: "SELECT",
+        order: 1,
+        question: 'Which one of this is the "the man"',
+      },
+      {
+        id: 2,
+        lessonId: 6,
+        type: "SELECT",
+        order: 2,
+        question: 'Which one of this is the "the man"',
+      },
+    ]);
+
+    await db.insert(schema.challengeOptions).values([
+      {
+        id: 1,
+        challengeId: 1,
+        correct: true,
+        audioSrc: "/es_man.mp3",
+      },
+      {
+        id: 2,
+        challengeId: 1,
+        correct: false,
+        audioSrc: "/woman.mp3",
+      },
+      {
+        id: 3,
+        challengeId: 1,
+        correct: false,
+        audioSrc: "/es_robot.mp3",
+      },
+    ]);
+    await db.insert(schema.challengeOptions).values([
+      {
+        id: 4,
+        challengeId: 2,
+        correct: true,
+        audioSrc: "/es_man.mp3",
+      },
+      {
+        id: 5,
+        challengeId: 2,
+        correct: false,
+        audioSrc: "/woman.mp3",
+      },
+      {
+        id: 6,
+        challengeId: 2,
+        correct: false,
+        audioSrc: "/es_robot.mp3",
       },
     ]);
     console.log("Seeding finished");

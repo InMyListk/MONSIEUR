@@ -37,16 +37,17 @@ export const unitsRelations = relations(units, ({ one, many }) => ({
     fields: [units.degreeId],
     references: [degrees.id],
   }),
+  userProgress: many(userProgress),
   lessons: many(lessons),
 }));
 
 export const lessons = pgTable("lessons", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
-  description: text("title").notNull(),
-  unitId: integer("unit_id").references(() => units.id, {
-    onDelete: "cascade",
-  }),
+  description: text("description").notNull(),
+  unitId: integer("unit_id")
+    .references(() => units.id, { onDelete: "cascade" })
+    .notNull(),
   url: text("url").notNull(),
   order: integer("order").notNull(),
 });
@@ -70,6 +71,15 @@ export const challenges = pgTable("challenges", {
   question: text("question").notNull(),
   order: integer("order").notNull(),
 });
+
+export const challengesRelations = relations(challenges, ({ one, many }) => ({
+  lesson: one(lessons, {
+    fields: [challenges.lessonId],
+    references: [lessons.id],
+  }),
+  challengeOptions: many(challengeOptions),
+  challengeProgress: many(challengeProgress),
+}));
 
 export const challengeOptions = pgTable("challenge_options", {
   id: serial("id").primaryKey(),
@@ -116,11 +126,21 @@ export const userProgress = pgTable("user_progress", {
   activeDegreeId: integer("active_degree_id").references(() => degrees.id, {
     onDelete: "cascade",
   }),
+  activeUnitId: integer("active_unit_id").references(() => units.id, {
+    onDelete: "cascade",
+  }),
 });
 
-export const userProgressRelation = relations(userProgress, ({ one }) => ({
-  activeDegree: one(degrees, {
-    fields: [userProgress.activeDegreeId],
-    references: [degrees.id],
-  }),
-}));
+export const userProgressRelation = relations(
+  userProgress,
+  ({ one, many }) => ({
+    activeDegree: one(degrees, {
+      fields: [userProgress.activeDegreeId],
+      references: [degrees.id],
+    }),
+    activeUnit: one(units, {
+      fields: [userProgress.activeUnitId],
+      references: [units.id],
+    }),
+  })
+);

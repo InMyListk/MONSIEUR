@@ -1,17 +1,19 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { SidebarItem } from "./sidebar-item";
+
 import { BadgeHelp, BookOpen, BookText, GraduationCap } from "lucide-react";
 import { SettingsDialog } from "./settings";
+import { getDegreeProgress } from "@/db/queries";
 
 type Props = {
   className?: string;
 };
 
-export const Sidebar = ({ className }: Props) => {
+export const Sidebar = async ({ className }: Props) => {
+  const degreeProgressData = getDegreeProgress();
+  const [degreeProgress] = await Promise.all([degreeProgressData]);
   return (
     <div
       className={cn(
@@ -31,7 +33,10 @@ export const Sidebar = ({ className }: Props) => {
         <SidebarItem label="الوحدات المقررة" href="/units">
           <BookText />
         </SidebarItem>
-        <SidebarItem label="الدروس" href="/lessons">
+        <SidebarItem
+          label="الدروس"
+          href={`/lessons/${degreeProgress?.activeLessonId}`}
+        >
           <BookOpen />
         </SidebarItem>
       </div>

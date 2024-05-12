@@ -3,8 +3,9 @@ import { Sidebar } from "@/components/sidebar";
 
 type Props = {
   children: React.ReactNode;
+  activeLessonId: any;
 };
-const layout = ({ children }: Props) => {
+const layout = async ({ children }: Props) => {
   return (
     <>
       <MobileHeader />
