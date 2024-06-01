@@ -9,12 +9,14 @@ import Link from "next/link";
 type Props = {
   label: string;
   href?: string;
+  activeHref?: string;
   children: React.ReactNode;
 };
 
-export const SidebarItem = ({ label, href, children }: Props) => {
+export const SidebarItem = ({ label, href, activeHref, children }: Props) => {
   const pathname = usePathname();
-  const active = pathname === href;
+  const active =
+    activeHref && pathname.includes(activeHref) ? true : pathname === href;
 
   return (
     <>

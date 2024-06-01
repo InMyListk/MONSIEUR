@@ -7,7 +7,13 @@ import {
 } from "@/components/ui/breadcrumb";
 import Link from "next/link";
 
-export const Header = () => {
+type Props = {
+  degreeTitle?: string;
+  unitTitle?: string;
+  lessonTitle?: string;
+};
+
+export const Header = ({ degreeTitle, unitTitle, lessonTitle }: Props) => {
   return (
     <div className="sticky top-0 flex flex-row-reverse justify-between items-center pt-3 pb-3">
       <div className="sm:block hidden">
@@ -15,19 +21,19 @@ export const Header = () => {
           <BreadcrumbList className="flex flex-row-reverse">
             <BreadcrumbItem className="cursor-pointer font-semibold">
               <Link href="/degrees" className="hover:text-black/80">
-                الصف الاول الثانوي
+                {degreeTitle}
               </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator className="rotate-180" />
             <BreadcrumbItem className="cursor-pointer font-semibold">
               <Link href="/units" className="hover:text-black/80">
-                الوحدة الاولي
+                {unitTitle}
               </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator className="rotate-180" />
             <BreadcrumbItem className="cursor-pointer font-semibold">
               <Link href="/lessons" className="hover:text-black/80">
-                مقدمة الوحدة
+                {lessonTitle}
               </Link>
             </BreadcrumbItem>
           </BreadcrumbList>

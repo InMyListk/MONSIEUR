@@ -16,7 +16,6 @@ type Props = {
 export const List = ({ units, activeUnitId, activeLessonId }: Props) => {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
-  console.log(activeLessonId);
   const onClick = (id: number) => {
     if (pending) return;
 

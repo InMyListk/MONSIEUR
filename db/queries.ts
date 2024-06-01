@@ -1,16 +1,17 @@
 import { cache } from "react";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 
 import db from "@/db/drizzle";
 import { auth } from "@clerk/nextjs/server";
 import {
   challengeProgress,
   degrees,
+  lessonProgress,
   lessons,
   units,
   userProgress,
 } from "./schema";
-import { tree } from "next/dist/build/templates/app-page";
+import { redirect } from "next/navigation";
 
 export const getUserProgress = cache(async () => {
   const { userId } = await auth();
@@ -69,7 +70,7 @@ export const getUnits = cache(async () => {
           })
         );
       });
-      return { ...lesson, completed: allCompletedChallenges };
+      return { ...lesson };
     });
     return { ...unit, lessons: lessonsWithCompletedStatus };
   });
@@ -87,7 +88,12 @@ export const getLessons = cache(async () => {
 
   const data = await db.query.lessons.findMany({
     where: eq(lessons.unitId, userProgress.activeUnitId),
+    orderBy: (lessons, { asc }) => [asc(lessons.order)],
     with: {
+      lessonProgress: {
+        where: eq(lessonProgress.userId, userId),
+      },
+
       challenges: {
         with: {
           challengeProgress: {
@@ -98,20 +104,28 @@ export const getLessons = cache(async () => {
     },
   });
 
-  const normalizedData = data.map((lesson) => {
-    const allCompletedChallenges = lesson.challenges.every((challenge) => {
-      return (
-        challenge.challengeProgress &&
-        challenge.challengeProgress.length > 0 &&
-        challenge.challengeProgress.every((progress) => {
-          progress.completed;
-        })
-      );
-    });
-    return { ...lesson, completed: allCompletedChallenges };
+  const normalizedLessonsData = data.map((lesson) => {
+    // const allCompletedChallenges = lesson.challenges.every((challenge) => {
+    //   return (
+    //     challenge.challengeProgress &&
+    //     challenge.challengeProgress.length > 0 &&
+    //     challenge.challengeProgress.every((progress) => {
+    //       progress.completed;
+    //     })
+    //   );
+    // });
+
+    const completedLesson =
+      lesson.lessonProgress &&
+      lesson.lessonProgress.length > 0 &&
+      lesson.lessonProgress.every((progress) => progress.completed);
+    // if (lesson.challenges.length === 0) {
+    //   return { ...lesson, completed: completedLesson };
+    // }
+    return { ...lesson, completed: completedLesson };
   });
 
-  return normalizedData;
+  return normalizedLessonsData;
 });
 
 export const getDegrees = cache(async () => {
@@ -134,7 +148,23 @@ export const getUnitById = cache(async (unitId: number) => {
   return data;
 });
 
-export const getDegreeProgress = cache(async () => {
+export const getUnitPercentage = async () => {
+  const lessons = await getLessons();
+
+  if (!lessons) {
+    return 0;
+  }
+
+  const completedLessons = lessons.filter((lesson) => lesson.completed);
+
+  const percentage = Math.round(
+    (completedLessons.length / lessons.length) * 100
+  );
+
+  return percentage;
+};
+
+export const getDegreeProgress = cache(async (id?: number) => {
   const { userId } = await auth();
   const userProgress = await getUserProgress();
 
@@ -153,6 +183,9 @@ export const getDegreeProgress = cache(async () => {
         orderBy: (lessons, { asc }) => [asc(lessons.order)],
         with: {
           unit: true,
+          lessonProgress: {
+            where: eq(lessonProgress.userId, userId),
+          },
           challenges: {
             with: {
               challengeProgress: {
@@ -165,26 +198,24 @@ export const getDegreeProgress = cache(async () => {
     },
   });
 
-  const firstUncompletedLesson = unitsInActiveDegree?.lessons.find((lesson) => {
-    return lesson.challenges.some((challenge) => {
+  const firstUncompletedLesson =
+    unitsInActiveDegree?.lessons.find((lesson) => {
       return (
-        !challenge.challengeProgress ||
-        challenge.challengeProgress.length === 0 ||
-        challenge.challengeProgress.some(
-          (progress) => progress.completed === false
-        )
+        !lesson.lessonProgress ||
+        lesson.lessonProgress.length === 0 ||
+        lesson.lessonProgress.some((progress) => progress.completed === false)
       );
-    });
-  });
+    }) || unitsInActiveDegree?.lessons[unitsInActiveDegree?.lessons.length - 1];
+
   return {
     activeLesson: firstUncompletedLesson,
     activeLessonId: firstUncompletedLesson?.id,
   };
 });
 
-export const getLesson = cache(async (id?: number) => {
+export const getLesson = cache(async (id: number) => {
   const { userId } = await auth();
-  const courseProgress = await getDegreeProgress();
+  const courseProgress = await getDegreeProgress(id);
 
   if (!userId) {
     return null;
@@ -199,6 +230,14 @@ export const getLesson = cache(async (id?: number) => {
   const data = await db.query.lessons.findFirst({
     where: eq(lessons.id, lessonId),
     with: {
+      lessonProgress: {
+        where: eq(lessonProgress.userId, userId),
+      },
+      unit: {
+        with: {
+          degree: true,
+        },
+      },
       challenges: {
         orderBy: (challenges, { asc }) => [asc(challenges.order)],
         with: {
@@ -224,6 +263,29 @@ export const getLesson = cache(async (id?: number) => {
   });
   return { ...data, challenges: normalizedChallenges };
 });
+
+export const getNextLesson = async (lessonOrder: number) => {
+  const { userId } = await auth();
+
+  const userProgress = await getUserProgress();
+
+  if (!userId || !userProgress) {
+    return null;
+  }
+
+  const data = await db.query.lessons.findFirst({
+    where: and(
+      eq(lessons.order, lessonOrder + 1),
+      eq(lessons.unitId, userProgress.activeUnitId)
+    ),
+  });
+
+  if (!data) {
+    return null;
+  }
+
+  return data.id;
+};
 
 export const getLessonPercentage = async () => {
   const degreeProgress = await getDegreeProgress();

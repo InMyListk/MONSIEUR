@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { lessons } from "@/db/schema";
+
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -10,9 +11,7 @@ type Props = {
   title: string;
   order: number;
   description: string;
-  lessons: (typeof lessons.$inferSelect & {
-    completed: boolean;
-  })[];
+  lessons: (typeof lessons.$inferSelect)[];
   term: string;
   disabled?: boolean;
   onClick: (id: number) => void;
@@ -30,7 +29,7 @@ export const UnitCard = ({
   return (
     <Card
       className={cn(
-        "min-w-[300px] min-h-[330px] flex flex-col items-end cursor-pointer hover:shadow-xl duration-300"
+        "min-w-[230px] min-h-[230px] flex flex-col items-end cursor-pointer hover:border-purple-500 duration-300"
       )}
       onClick={() => {
         onClick(id);
@@ -38,7 +37,7 @@ export const UnitCard = ({
     >
       <div className="w-full">
         <Image
-          className="w-full h-[180px] rounded-t-md"
+          className="w-full h-[150px] rounded-t-md"
           width={300}
           height={300}
           src="/jungle.jpg"

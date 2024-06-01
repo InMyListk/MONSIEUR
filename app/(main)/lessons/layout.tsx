@@ -3,7 +3,6 @@ import { StickyWrapper } from "@/components/sticky-wrapper";
 import { UserProgress } from "@/components/user-progress";
 import { LessonsSidebar } from "@/components/lessons-sidebar";
 import React from "react";
-import { Header } from "./header";
 import { getLessons, getUnits, getUserProgress } from "@/db/queries";
 import { redirect } from "next/navigation";
 
@@ -26,10 +25,7 @@ const layout = async ({ children }: Props) => {
         <UserProgress />
         <LessonsSidebar />
       </StickyWrapper>
-      <FeedWrapper>
-        <Header />
-        {children}
-      </FeedWrapper>
+      <FeedWrapper>{children}</FeedWrapper>
     </div>
   );
 };

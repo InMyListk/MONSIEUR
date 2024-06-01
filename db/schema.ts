@@ -41,6 +41,21 @@ export const unitsRelations = relations(units, ({ one, many }) => ({
   lessons: many(lessons),
 }));
 
+export const enrolledUnits = pgTable("enrolled-unit", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id").notNull(),
+  unitId: integer("unit_id").references(() => units.id, {
+    onDelete: "cascade",
+  }),
+});
+
+export const enrolledUnitsRelations = relations(enrolledUnits, ({ one }) => ({
+  userProgress: one(userProgress, {
+    fields: [enrolledUnits.userId],
+    references: [userProgress.userId],
+  }),
+}));
+
 export const lessons = pgTable("lessons", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
@@ -57,7 +72,24 @@ export const lessonsRelations = relations(lessons, ({ one, many }) => ({
     fields: [lessons.unitId],
     references: [units.id],
   }),
+  lessonProgress: many(lessonProgress),
   challenges: many(challenges),
+}));
+
+export const lessonProgress = pgTable("lesson-progress", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id").notNull(),
+  lessonId: integer("lesson_id").references(() => lessons.id, {
+    onDelete: "cascade",
+  }),
+  completed: boolean("completed").notNull().default(false),
+});
+
+export const lessonProgressRelations = relations(lessonProgress, ({ one }) => ({
+  lesson: one(lessons, {
+    fields: [lessonProgress.lessonId],
+    references: [lessons.id],
+  }),
 }));
 
 export const challengesEnum = pgEnum("type", ["SELECT", "ASSIST"]);
@@ -142,5 +174,6 @@ export const userProgressRelation = relations(
       fields: [userProgress.activeUnitId],
       references: [units.id],
     }),
+    enrolledUnits: many(enrolledUnits),
   })
 );

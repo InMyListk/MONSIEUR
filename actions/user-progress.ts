@@ -5,13 +5,14 @@ import { revalidatePath } from "next/cache";
 import { auth, currentUser } from "@clerk/nextjs";
 
 import db from "@/db/drizzle";
-import { units, userProgress } from "@/db/schema";
+import { enrolledUnits, units, userProgress } from "@/db/schema";
 import {
   getDegreeById,
   getDegreeProgress,
   getUnitById,
   getUserProgress,
 } from "@/db/queries";
+import { and, eq } from "drizzle-orm";
 
 export const upsertUserProgressDegree = async (id: number) => {
   const { userId } = await auth();
@@ -71,7 +72,7 @@ export const upsertUserProgressUnit = async (id: number) => {
 
   const unit = await getUnitById(id);
 
-  if (!units) {
+  if (!unit) {
     throw new Error("Units not found");
   }
 
@@ -82,11 +83,30 @@ export const upsertUserProgressUnit = async (id: number) => {
   const existingUserProgress = await getUserProgress();
 
   if (existingUserProgress) {
-    await db.update(userProgress).set({
-      activeUnitId: id,
-      userName: user.firstName || "User",
-      userImageSrc: user.imageUrl || "/mascot.svg",
+    const existingEnrolledUnit = await db.query.enrolledUnits.findFirst({
+      where: and(
+        eq(enrolledUnits.userId, userId),
+        eq(enrolledUnits.unitId, id)
+      ),
     });
+
+    const isEnrolled = !!existingEnrolledUnit;
+
+    await db
+      .update(userProgress)
+      .set({
+        activeUnitId: id,
+        userName: user.firstName || "User",
+        userImageSrc: user.imageUrl || "/mascot.svg",
+      })
+      .where(eq(userProgress.userId, userId));
+
+    if (!isEnrolled) {
+      await db.insert(enrolledUnits).values({
+        userId,
+        unitId: id,
+      });
+    }
 
     const degreeProgress = await getDegreeProgress();
 

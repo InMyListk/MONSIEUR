@@ -36,6 +36,7 @@ export const Sidebar = async ({ className }: Props) => {
         <SidebarItem
           label="الدروس"
           href={`/lessons/${degreeProgress?.activeLessonId}`}
+          activeHref={"/lessons/"}
         >
           <BookOpen />
         </SidebarItem>
