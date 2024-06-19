@@ -21,7 +21,7 @@ export const Sidebar = async ({ className }: Props) => {
         className
       )}
     >
-      <Link href="/learn">
+      <Link href="/">
         <div className="pt-8 pb-7 right-0 pr-8">
           <Image src="/logo.png" height={110} width={110} alt="MONSIEUR" />
         </div>
@@ -42,7 +42,7 @@ export const Sidebar = async ({ className }: Props) => {
         </SidebarItem>
       </div>
       <div className="p-4 flex flex-col items-end mx-auto pb-20">
-        <SidebarItem label="قسم الدعم" href="/help">
+        <SidebarItem label="قسم الدعم" href="/">
           <BadgeHelp />
         </SidebarItem>
         <SidebarItem label="الاعدادات">

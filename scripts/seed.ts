@@ -59,7 +59,7 @@ const main = async () => {
         id: 1,
         unitId: 1,
         order: 1,
-        url: "",
+        url: "https://www.youtube.com/embed/-JhOFyw2WlI?si=DNMZmigFEkm3NgoW",
         title: "قواعد النحو الفرنسية",
         description:
           "في هذا الدرس، سنتعلم قواعد النحو الفرنسية وسيساعدكم على فهم البناء الصحيح للجُمل وتنسيق الأفعال والصفات والأضافات والظروف والعوامل التجميلية الأخرى في الجمل.",
@@ -68,7 +68,7 @@ const main = async () => {
         id: 2,
         unitId: 1,
         order: 2,
-        url: "",
+        url: "https://www.youtube.com/embed/tG2ae8mZmic?si=vBwt6gWsMJ-DL4uN",
         title: "الصرف الفرنسي",
         description:
           "في هذا الدرس، سنتعلم الصرف الفرنسي للأفعال وأشهر الأزمنة الفرنسية وأساليب استخدامها.",
@@ -77,7 +77,7 @@ const main = async () => {
         id: 3,
         unitId: 1,
         order: 3,
-        url: "",
+        url: "https://www.youtube.com/embed/70gxgZfpsFU?si=ak48R_5iOTEuD3PH",
         title: "الإملاء الفرنسي",
         description:
           "في هذا الدرس، سنتعلم الإملاء الفرنسي وقواعد استخدامها بشكل صحيح.",
@@ -86,7 +86,7 @@ const main = async () => {
         id: 4,
         unitId: 1,
         order: 4,
-        url: "",
+        url: "https://www.youtube.com/embed/qvI_7St3mBk?si=rP_NpciIVpPCtDKj",
         title: "تنسيق الجُمل باللغة الفرنسية",
         description:
           "في هذا الدرس، سنتعلم كيفية تنسيق الجمل باللغة الفرنسية واستخدام الأفعال والصفات والأضافات والظروف وغيرها بشكل صحيح.",
@@ -95,7 +95,7 @@ const main = async () => {
         id: 5,
         unitId: 1,
         order: 5,
-        url: "",
+        url: "https://www.youtube.com/embed/0HoMvKbZTjs?si=NpLZAx8F9q8n02DP",
         title: "أساليب التعبير ووسائل التواصل باللغة الفرنسية",
         description:
           "في هذا الدرس، سنتعلم أساليب التعبير ووسائل التواصل المختلفة في اللغة الفرنسية وكيفية التعبير بشكل صحيح.",
@@ -104,7 +104,7 @@ const main = async () => {
         id: 6,
         unitId: 2,
         order: 1,
-        url: "",
+        url: "https://www.youtube.com/embed/RO4d-3Pmg3k?si=1Ii5qK5w_RRsIDoh",
         title: "المفردات والأساليب الأساسية في اللغة الفرنسية",
         description:
           "في هذا الدرس، سنتعلم المفردات والأساليب الأساسية في اللغة الفرنسية مثل الأفعال والأسماء والصفات والظروف والعبارات الشائعة، بالإضافة إلى التعبيرات الصوتية في اللغة الفرنسية.",
@@ -113,7 +113,7 @@ const main = async () => {
         id: 7,
         unitId: 2,
         order: 2,
-        url: "",
+        url: "https://www.youtube.com/embed/DGCB0ySwfok?si=J12VGUvbexX30pbe",
         title: "أفعال اللغة الفرنسية الأساسية",
         description:
           "في هذا الدرس، سنتعلم الأفعال الأساسية في اللغة الفرنسية وكيفية تصريفها بشكل صحيح.",
@@ -122,7 +122,7 @@ const main = async () => {
         id: 8,
         unitId: 2,
         order: 3,
-        url: "",
+        url: "https://www.youtube.com/embed/JIEcdhvb5BQ?si=jkxChWgE0GO6Zqjs",
         title: "العبارات الشائعة في اللغة الفرنسية",
         description:
           "في هذا الدرس، سنتعلم العبارات الشائعة في اللغة الفرنسية وكيفية استخدامها للتحدث والتواصل بشكل صحيح.",

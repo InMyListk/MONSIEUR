@@ -3,7 +3,6 @@
 import { updateLessonCompletion } from "@/actions/lesson-progress";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { useWindowSize } from "react-use";
 import Confetti from "react-confetti";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
@@ -22,7 +21,6 @@ export const CompleteButton = ({
 }: Props) => {
   const [percentage] = useState(unitPercentage);
   const [isFinshedUnit, setIsFinshedUnit] = useState(false);
-  const { width, height } = useWindowSize();
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const onClick = () => {

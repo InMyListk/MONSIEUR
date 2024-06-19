@@ -11,7 +11,6 @@ import {
   units,
   userProgress,
 } from "./schema";
-import { redirect } from "next/navigation";
 
 export const getUserProgress = cache(async () => {
   const { userId } = await auth();
@@ -25,6 +24,7 @@ export const getUserProgress = cache(async () => {
     with: {
       activeDegree: true,
       activeUnit: true,
+      enrolledUnits: true,
     },
   });
 
@@ -34,6 +34,7 @@ export const getUserProgress = cache(async () => {
 export const getUnits = cache(async () => {
   const { userId } = await auth();
   const userProgress = await getUserProgress();
+  const enrolledUnits = userProgress?.enrolledUnits;
 
   if (!userId || !userProgress?.activeDegreeId) {
     return [];
@@ -44,6 +45,9 @@ export const getUnits = cache(async () => {
     with: {
       lessons: {
         with: {
+          lessonProgress: {
+            where: eq(lessonProgress.userId, userId),
+          },
           challenges: {
             with: {
               challengeProgress: {
@@ -57,22 +61,43 @@ export const getUnits = cache(async () => {
   });
 
   const normalizedData = data.map((unit) => {
-    const lessonsWithCompletedStatus = unit.lessons.map((lesson) => {
-      if (lesson.challenges.length === 0) {
-        return { ...lesson, completed: false };
-      }
-      const allCompletedChallenges = lesson.challenges.every((challenge) => {
+    if (!data) {
+      return 0;
+    }
+    const enrolledUnit = enrolledUnits?.some((enrolledUnit) => {
+      return enrolledUnit.unitId === unit.id;
+    });
+
+    if (enrolledUnit) {
+      const completedLessons = unit.lessons.filter((lesson) => {
         return (
-          challenge.challengeProgress &&
-          challenge.challengeProgress.length > 0 &&
-          challenge.challengeProgress.every((progress) => {
-            progress.completed;
-          })
+          lesson.lessonProgress &&
+          lesson.lessonProgress.length > 0 &&
+          lesson.lessonProgress.every((progress) => progress.completed)
         );
       });
-      return { ...lesson };
-    });
-    return { ...unit, lessons: lessonsWithCompletedStatus };
+
+      const percentage = Math.round(
+        (completedLessons.length / unit.lessons.length) * 100
+      );
+      const lessonsWithCompletedStatus = unit.lessons.map((lesson) => {
+        if (lesson.challenges.length === 0) {
+          return { ...lesson, completed: false };
+        }
+
+        return { ...lesson };
+      });
+
+      return {
+        ...unit,
+        lessons: lessonsWithCompletedStatus,
+        percentage: percentage,
+      };
+    }
+    return {
+      ...unit,
+      percentage: null,
+    };
   });
 
   return normalizedData;
@@ -270,6 +295,10 @@ export const getNextLesson = async (lessonOrder: number) => {
   const userProgress = await getUserProgress();
 
   if (!userId || !userProgress) {
+    return null;
+  }
+
+  if (!userProgress.activeUnitId) {
     return null;
   }
 

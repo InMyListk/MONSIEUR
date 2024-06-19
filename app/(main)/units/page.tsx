@@ -18,7 +18,6 @@ const UnitsPage = async () => {
   if (!userProgress || !userProgress.activeDegreeId) {
     redirect("/degrees");
   }
-
   return (
     <>
       <List

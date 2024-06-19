@@ -4,11 +4,22 @@ import { toast } from "sonner";
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { UnitCard } from "./card";
-import { lessons, units, userProgress } from "@/db/schema";
+import {
+  challenges,
+  lessonProgress,
+  lessons,
+  units,
+  userProgress,
+} from "@/db/schema";
 import { upsertUserProgressUnit } from "@/actions/user-progress";
 
 type Props = {
-  units: (typeof units.$inferSelect)[];
+  units: (typeof units.$inferSelect & {
+    lessons: (typeof lessons.$inferSelect)[];
+    lessonProgress: (typeof lessonProgress.$inferSelect)[];
+    percentage: number;
+    challenges: (typeof challenges.$inferSelect)[];
+  })[];
   activeUnitId?: typeof userProgress.$inferSelect.activeUnitId;
   activeLessonId: any;
 };
@@ -39,6 +50,7 @@ export const List = ({ units, activeUnitId, activeLessonId }: Props) => {
           disabled={unit.id === activeUnitId}
           order={unit.order}
           description={unit.description}
+          percentage={unit.percentage}
           lessons={unit.lessons}
           term={unit.term}
           onClick={onClick}

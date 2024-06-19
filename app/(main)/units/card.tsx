@@ -5,12 +5,14 @@ import { Card } from "@/components/ui/card";
 import { lessons } from "@/db/schema";
 
 import { cn } from "@/lib/utils";
+import { Progress } from "@/components/ui/progress";
 
 type Props = {
   id: number;
   title: string;
   order: number;
   description: string;
+  percentage: number;
   lessons: (typeof lessons.$inferSelect)[];
   term: string;
   disabled?: boolean;
@@ -23,13 +25,14 @@ export const UnitCard = ({
   disabled,
   order,
   description,
+  percentage,
   lessons,
   onClick,
 }: Props) => {
   return (
     <Card
       className={cn(
-        "min-w-[230px] min-h-[230px] flex flex-col items-end cursor-pointer hover:border-purple-500 duration-300"
+        "min-w-[230px] min-h-[305px] flex flex-col items-end cursor-pointer hover:border-purple-500 duration-300"
       )}
       onClick={() => {
         onClick(id);
@@ -46,18 +49,29 @@ export const UnitCard = ({
           alt=""
         />
       </div>
-      <div className="p-4">
+      <div className="p-4 w-full flex flex-col items-end gap-y-3">
         <h3 className="font-semibold text-right">{title}</h3>
-        <div className="mt-3">
+        <div>
           <Badge
-            variant={"secondary"}
+            variant={"default"}
             className="flex flex-row-reverse gap-x-2 items-center w-[130px] rounded-md"
           >
-            <BookOpen size={17} color="white" />
-            <p className="text-white flex flex-row-reverse gap-x-1">
+            <BookOpen size={17} className="text-purple-600" />
+            <p className="text-purple-600 flex flex-row-reverse gap-x-1">
               <span>{lessons.length}</span> درس
             </p>
           </Badge>
+        </div>
+        <div className="w-full">
+          {percentage != null && (
+            <>
+              <Progress value={percentage} className="w-full h-3 rotate-180" />
+              <div className="flex font-medium text-purple-500 justify-end mt-3 text-[13px] space-x-2">
+                <p>{percentage}%</p>
+                <p>اكمل</p>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </Card>

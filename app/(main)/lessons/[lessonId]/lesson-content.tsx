@@ -16,7 +16,7 @@ export const LessonContent = ({ title, videoUrl, description }: Props) => {
         <h1 className="lg:text-2xl text-lg font-semibold">{title}</h1>
       </div>
       <div className="w-full relative pt-[56.25%] mt-5">
-        <VideoContainer />
+        <VideoContainer url={videoUrl} />
       </div>
       <div className="mt-3 font-semibold text-sm text-muted-foreground">
         <p>{description}</p>

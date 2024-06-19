@@ -5,6 +5,7 @@ import {
   SignInButton,
   SignedOut,
   UserButton,
+  auth,
 } from "@clerk/nextjs";
 import {
   Sheet,
@@ -14,17 +15,20 @@ import {
 } from "@/components/ui/sheet";
 import { Loader, Menu } from "lucide-react";
 import { Sidebar } from "./sidebar";
+import { redirect } from "next/navigation";
 
-export const MobileSidebar = () => {
+export const MobileSidebar = async () => {
+  const { userId } = await auth();
+
+  if (!userId) {
+    redirect("/");
+  }
   return (
     <>
       <ClerkLoading>
         <Loader className="h-5 w-5 text-muted-foreground animate-spin" />
       </ClerkLoading>
       <ClerkLoaded>
-        <SignedOut>
-          <SignInButton></SignInButton>
-        </SignedOut>
         <UserButton />
       </ClerkLoaded>
       <div className="xl:hidden block">
