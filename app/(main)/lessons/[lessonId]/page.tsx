@@ -48,8 +48,9 @@ const LessonIdPage = async ({ params }: Props) => {
         title={lesson.title}
         videoUrl={lesson.url}
         description={lesson.description}
+        sections={lesson.lessonSections}
       />
-      <div className="flex justify-end mt-10">
+      <div className="flex justify-end mt-20">
         <CompleteButton
           lessonId={lessonId}
           lessonOrder={lesson.order}

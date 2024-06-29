@@ -73,6 +73,7 @@ export const lessonsRelations = relations(lessons, ({ one, many }) => ({
     references: [units.id],
   }),
   lessonProgress: many(lessonProgress),
+  lessonSections: many(lessonSections),
   challenges: many(challenges),
 }));
 
@@ -88,6 +89,26 @@ export const lessonProgress = pgTable("lesson-progress", {
 export const lessonProgressRelations = relations(lessonProgress, ({ one }) => ({
   lesson: one(lessons, {
     fields: [lessonProgress.lessonId],
+    references: [lessons.id],
+  }),
+}));
+
+export const lessonSections = pgTable("lesson-section", {
+  id: serial("id").primaryKey(),
+  lessonId: integer("lesson_id")
+    .references(() => lessons.id, {
+      onDelete: "cascade",
+    })
+    .notNull(),
+  title: text("title"),
+  imageUrl: text("image"),
+  order: integer("order").notNull(),
+  content: text("content").notNull(),
+});
+
+export const lessonSectionsRelations = relations(lessonSections, ({ one }) => ({
+  lesson: one(lessons, {
+    fields: [lessonSections.lessonId],
     references: [lessons.id],
   }),
 }));

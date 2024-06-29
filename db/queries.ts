@@ -7,6 +7,7 @@ import {
   challengeProgress,
   degrees,
   lessonProgress,
+  lessonSections,
   lessons,
   units,
   userProgress,
@@ -262,6 +263,9 @@ export const getLesson = cache(async (id: number) => {
         with: {
           degree: true,
         },
+      },
+      lessonSections: {
+        orderBy: (lessonSections, { asc }) => [asc(lessonSections.order)],
       },
       challenges: {
         orderBy: (challenges, { asc }) => [asc(challenges.order)],
