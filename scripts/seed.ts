@@ -17,6 +17,10 @@ const main = async () => {
     await db.delete(schema.units);
     await db.delete(schema.lessons);
     await db.delete(schema.userProgress);
+    await db.delete(schema.lessonTopics);
+    await db.delete(schema.lessonSections);
+    await db.delete(schema.challenges);
+    await db.delete(schema.challengeOptions);
 
     await db.insert(schema.degrees).values([
       {
@@ -128,6 +132,7 @@ const main = async () => {
           "في هذا الدرس، سنتعلم العبارات الشائعة في اللغة الفرنسية وكيفية استخدامها للتحدث والتواصل بشكل صحيح.",
       },
     ]);
+
     await db.insert(schema.challenges).values([
       {
         id: 1,
@@ -151,38 +156,45 @@ const main = async () => {
         challengeId: 1,
         correct: true,
         audioSrc: "/es_man.mp3",
+        content: "man",
       },
       {
         id: 2,
         challengeId: 1,
         correct: false,
         audioSrc: "/woman.mp3",
+        content: "woman",
       },
       {
         id: 3,
         challengeId: 1,
         correct: false,
         audioSrc: "/es_robot.mp3",
+        content: "robot",
       },
     ]);
+
     await db.insert(schema.challengeOptions).values([
       {
         id: 4,
         challengeId: 2,
         correct: true,
         audioSrc: "/es_man.mp3",
+        content: "man",
       },
       {
         id: 5,
         challengeId: 2,
         correct: false,
         audioSrc: "/woman.mp3",
+        content: "woman",
       },
       {
         id: 6,
         challengeId: 2,
         correct: false,
         audioSrc: "/es_robot.mp3",
+        content: "robot",
       },
     ]);
     console.log("Seeding finished");

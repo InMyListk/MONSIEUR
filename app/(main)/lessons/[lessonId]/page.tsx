@@ -8,6 +8,7 @@ import {
 import { Header } from "./header";
 import { CompleteButton } from "./complete-button";
 import { LessonContent } from "./lesson-content";
+import { ChallengesList } from "./challenges-list";
 
 type Props = {
   params: {
@@ -48,8 +49,13 @@ const LessonIdPage = async ({ params }: Props) => {
         title={lesson.title}
         videoUrl={lesson.url}
         description={lesson.description}
-        sections={lesson.lessonSections}
+        topics={lesson.lessonTopics}
       />
+
+      <div className="mt-10">
+        <ChallengesList challenges={lesson.challenges} />
+      </div>
+
       <div className="flex justify-end mt-20">
         <CompleteButton
           lessonId={lessonId}

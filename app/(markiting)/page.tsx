@@ -14,7 +14,7 @@ import Link from "next/link";
 export default function Home() {
   return (
     <div className="mt-16 w-full">
-      <div className="w-full flex flex-row-reverse items-center gap-x-32 justify-center sm:px-0 px-2">
+      <div className="w-full flex md:flex-row-reverse flex-col items-center gap-x-32 justify-center sm:px-0 px-2">
         <div className=" max-w-[400px] text-right">
           <div className="text-3xl font-bold">
             <h1 className="text-purple-500 underline">تعلم اللغة الفرنسية</h1>

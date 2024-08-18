@@ -1,4 +1,4 @@
-import { lessonSections, lessons } from "@/db/schema";
+import { lessonSections, lessonTopics, lessons } from "@/db/schema";
 import React from "react";
 import { VideoContainer } from "./video-container";
 import { List } from "./list";
@@ -8,14 +8,16 @@ type Props = {
   videoUrl?: string;
   description?: string;
   // lesson?: typeof lessons.$inferSelect;
-  sections: (typeof lessonSections.$inferSelect)[];
+  topics: (typeof lessonTopics.$inferSelect & {
+    lessonSections: (typeof lessonSections.$inferSelect)[];
+  })[];
 };
 
 export const LessonContent = ({
   title,
   videoUrl,
   description,
-  sections,
+  topics,
 }: Props) => {
   return (
     <div className="w-full flex flex-col items-end text-end">
@@ -29,7 +31,7 @@ export const LessonContent = ({
         <p>{description}</p>
       </div>
       <div className="pt-10">
-        <List sections={sections} />
+        <List topics={topics} />
       </div>
     </div>
   );
