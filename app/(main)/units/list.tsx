@@ -14,12 +14,7 @@ import {
 import { upsertUserProgressUnit } from "@/actions/user-progress";
 
 type Props = {
-  units: (typeof units.$inferSelect & {
-    lessons: (typeof lessons.$inferSelect)[];
-    lessonProgress: (typeof lessonProgress.$inferSelect)[];
-    percentage: number;
-    challenges: (typeof challenges.$inferSelect)[];
-  })[];
+  units: any[];
   activeUnitId?: typeof userProgress.$inferSelect.activeUnitId;
   activeLessonId: any;
 };
