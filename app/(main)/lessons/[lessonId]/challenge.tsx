@@ -65,6 +65,7 @@ export const Challenge = ({
         <div className="flex flex-col gap-y-5 mt-5">
           {options.map((option) => (
             <div
+              key={option.id}
               className={cn(
                 "h-full border-2 rounded-xl hover:bg-black/5 p-4 lg:p-6 cursor-pointer active::border-b-2",
                 selectedOption == option.id &&
