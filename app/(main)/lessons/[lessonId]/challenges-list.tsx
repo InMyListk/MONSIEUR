@@ -16,6 +16,7 @@ export const ChallengesList = ({ challenges }: Props) => {
       {challenges.map((challenge) => (
         <>
           <Challenge
+            key={challenge.id}
             question={challenge.question}
             type={challenge.type}
             order={challenge.order}
